@@ -86,6 +86,82 @@ The commit must be pinned in full. Copies installed from a branch or tag cannot 
 
 Restart DSH. The mode picker gains **Smart Dev Mode**, the right sidebar gains the panel, and the panel opens automatically for `smart-dev` sessions.
 
+## Install guide for AI agents
+
+> This section is written for automated agents. Human users should use the two options above. If you are an agent asked to "install this repository into DSH", execute the checklist below; you do not need to read anything else.
+
+### 1. Preflight
+
+| Check | How | If it fails |
+|:--|:--|:--|
+| DSH version | Runtime version must satisfy `>=0.2.0-0` (prereleases count) | Stop and tell the user the version is unsupported |
+| Git available | `git --version` prints something | Stop; the Git source install needs it |
+| Target profile | The profile the user's session belongs to | Do not switch profiles on your own |
+
+### 2. Install manifest
+
+Replace `<commit>` with the `source.commit` (40 characters) of the matching version in `market/index.json`.
+
+```yaml
+# Install strictly in ascending order. Do not parallelize.
+dsh: ">=0.2.0-0"
+commitSource: "https://raw.githubusercontent.com/AEcru/dsh-smart-dev-kit/main/market/index.json"
+packages:
+  - order: 1
+    name: dsh-smart-dev-panel
+    required: true
+    target: "git+https://github.com/AEcru/dsh-smart-dev-kit.git#<commit>&path:/packages/smart-dev-panel"
+  - order: 2
+    name: dsh-preset-smart-dev
+    required: true
+    target: "git+https://github.com/AEcru/dsh-smart-dev-kit.git#<commit>&path:/packages/preset-smart-dev"
+  - order: 3
+    name: dsh-preset-superagent-local
+    required: false
+    target: "git+https://github.com/AEcru/dsh-smart-dev-kit.git#<commit>&path:/packages/preset-superagent-local"
+```
+
+How to execute: call `plugin_manager`'s `install_bundle` with each `target` in order. Do **not** clone the repo and hand-edit `cordis.patch.yml` instead — that duplicates the bundle registration and produces a preset id conflict.
+
+### 3. Why the order matters
+
+`dsh-preset-smart-dev` contains a cross-package reference:
+
+```yaml
+- id: smartdev-superagent-bridge
+  name: dsh-smart-dev-panel/superagent-router
+```
+
+With the panel absent that line cannot resolve, and composing the whole preset fails. So order 1 must succeed before order 2 starts.
+
+### 4. Verify
+
+```bash
+dsh --profile <profile> --dump-config   # output should mention preset-smart-dev
+```
+
+If that command answers "profile is managed exclusively by the Electron application", use `plugin_manager`'s `list_bundles` instead and confirm all three packages are installed and enabled.
+
+Both required packages present means the user must **restart DSH** before the new mode appears. Restarting is the only step that interrupts the current session — tell the user before doing it.
+
+### 5. Rollback
+
+Uninstall in reverse order, preset first. Call `plugin_manager`'s `remove_bundle` with these names:
+
+```text
+dsh-preset-smart-dev
+dsh-smart-dev-panel
+dsh-preset-superagent-local    # if installed
+```
+
+A restart is required afterwards as well. Note that `install_bundle` requires danger-full-access or explicit user approval; never work around that approval.
+
+### 6. Do not
+
+- Do not change the user's default-mode setting unless they asked for it.
+- Do not replace `<commit>` in `market/index.json` with a branch or tag — DSH only accepts Git dependencies pinned to a full commit.
+- Do not copy configuration fragments outside `packages/` in this repo; that creates a second source of truth.
+
 ## How it works
 
 The preset picks a tier before doing anything; the tier decides the effort:

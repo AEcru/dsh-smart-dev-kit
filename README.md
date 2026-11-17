@@ -86,6 +86,82 @@ git+https://github.com/AEcru/dsh-smart-dev-kit.git#<full-commit>&path:/packages/
 
 重启 DSH。新建任务时模式选择器里出现「智能开发模式」，右侧栏出现「智能开发」面板，开 `smart-dev` 会话时自动打开。
 
+## 给 AI agent 的安装说明
+
+> 本节面向自动化 agent。人类用户请用上面两种方式；如果你是被要求"把这个仓库装进 DSH"的 agent，按下面的清单执行即可，不需要再读其他文件。
+
+### 1. 前置检查
+
+| 检查项 | 判定方式 | 不满足时 |
+|:--|:--|:--|
+| DSH 版本 | 运行时版本需满足 `>=0.2.0-0`（预发布版本也算） | 停止，告知用户版本不兼容 |
+| Git 可用 | `git --version` 有输出 | 停止，Git 源安装必需 |
+| 目标 profile | 用户当前会话所属的 profile | 不要擅自切换 profile |
+
+### 2. 安装清单
+
+把 `<commit>` 替换为 `market/index.json` 里对应版本的 `source.commit`（40 位）。
+
+```yaml
+# 严格按 order 升序安装，不要并行
+dsh: ">=0.2.0-0"
+commitSource: "https://raw.githubusercontent.com/AEcru/dsh-smart-dev-kit/main/market/index.json"
+packages:
+  - order: 1
+    name: dsh-smart-dev-panel
+    required: true
+    target: "git+https://github.com/AEcru/dsh-smart-dev-kit.git#<commit>&path:/packages/smart-dev-panel"
+  - order: 2
+    name: dsh-preset-smart-dev
+    required: true
+    target: "git+https://github.com/AEcru/dsh-smart-dev-kit.git#<commit>&path:/packages/preset-smart-dev"
+  - order: 3
+    name: dsh-preset-superagent-local
+    required: false
+    target: "git+https://github.com/AEcru/dsh-smart-dev-kit.git#<commit>&path:/packages/preset-superagent-local"
+```
+
+执行方式：调用 `plugin_manager` 的 `install_bundle`，`target` 依次取上面的 `target`。**不要**用 `clone` 后手动改 `cordis.patch.yml` 的方式安装——那会和 bundle 注册重复，导致 preset id 冲突。
+
+### 3. 顺序为什么不能乱
+
+`dsh-preset-smart-dev` 的配置里有一行跨包引用：
+
+```yaml
+- id: smartdev-superagent-bridge
+  name: dsh-smart-dev-panel/superagent-router
+```
+
+面板不在时这一行解析不到，组合整个预设会失败。所以 order 1 必须成功之后才能做 order 2。
+
+### 4. 验证
+
+```bash
+dsh --profile <profile> --dump-config   # 输出中应包含 preset-smart-dev
+```
+
+该命令若返回 "profile is managed exclusively by the Electron application"，改用 `plugin_manager` 的 `list_bundles` 确认三个包均为已安装、已启用状态。
+
+两个必需包都装好后，需要用户**重启 DSH** 才会出现新模式——重启是唯一会中断当前会话的步骤，执行前必须先告知用户。
+
+### 5. 回滚
+
+按相反顺序卸载，先卸预设再卸面板。调用 `plugin_manager` 的 `remove_bundle`，`name` 依次为：
+
+```text
+dsh-preset-smart-dev
+dsh-smart-dev-panel
+dsh-preset-superagent-local    # 若已装
+```
+
+卸载后同样需要重启。注意 `install_bundle` 会要求 danger-full-access 或用户明确批准，不要绕过这个批准。
+
+### 6. 禁止事项
+
+- 不要修改用户的 profile 默认模式设置，除非用户明确要求。
+- 不要把 `market/index.json` 里的 `<commit>` 换成分支名或标签——DSH 只接受固定到完整提交的 Git 依赖。
+- 不要在本仓库的 `packages/` 之外复制配置片段，那会制造第二个定义来源。
+
 ## 它怎么工作
 
 开工前先定档，档位决定投入：
