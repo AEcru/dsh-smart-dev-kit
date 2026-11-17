@@ -36,6 +36,12 @@ DSH 的插件市场读一份你自己托管的索引，不会自动扫描 GitHub
 https://raw.githubusercontent.com/AEcru/dsh-smart-dev-kit/main/market/index.json
 ```
 
+国内访问 `raw.githubusercontent.com` 不稳定时可以换 jsDelivr 镜像，两份内容相同：
+
+```
+https://cdn.jsdelivr.net/gh/AEcru/dsh-smart-dev-kit@main/market/index.json
+```
+
 装的时候先装 `dsh-smart-dev-panel`，再装 `dsh-preset-smart-dev`。顺序反了会因为桥接入口找不到而装不上。
 
 如果设置里找不到添加索引的入口，说明当前 profile 没有启用插件市场组合包。DSH 随附的 profile 默认不启用它，需要先在插件页启用，这一步属于 DSH 自身配置，不在本仓库范围内。
