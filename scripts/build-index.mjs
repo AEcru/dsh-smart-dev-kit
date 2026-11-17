@@ -20,12 +20,15 @@ function repositoryUrl() {
   return remote.replace(/\.git$/, '');
 }
 
-const commit = git('rev-parse', 'HEAD');
+// Pin to the last commit that touched packages/, not HEAD. The index is committed
+// separately, so using HEAD would point every version at the index commit itself
+// and make each regeneration produce a different commit id.
+const commit = git('log', '-1', '--format=%H', '--', 'packages');
 if (!/^[0-9a-f]{40}$/.test(commit)) {
   console.error(`not a full 40-character commit: ${commit}`);
   process.exit(1);
 }
-const published = Number(git('log', '-1', '--format=%ct'));
+const published = Number(git('log', '-1', '--format=%ct', '--', 'packages'));
 const repoUrl = repositoryUrl();
 
 // Marketing metadata per package. Descriptions are duplicated in package.json
