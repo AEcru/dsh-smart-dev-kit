@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Smart dev panel",
+    "description": "Right-sidebar task view for the Smart Development Mode: tickets, subagent delegations, step stats, token and context usage. Opens automatically for Smart Development Mode sessions."
+  }
+}

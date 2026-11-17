@@ -1,0 +1,49 @@
+{
+  "name": "dsh-preset-superagent-local",
+  "version": "1.1.0",
+  "description": "工单运行时：为智能开发模式提供「重型工单通道」，把 Git 项目任务放进独立会话与 worktree 中执行。",
+  "license": "MIT",
+  "author": "AEcru",
+  "homepage": "https://github.com/AEcru/dsh-smart-dev-kit#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AEcru/dsh-smart-dev-kit.git",
+    "directory": "packages/preset-superagent-local"
+  },
+  "bugs": {
+    "url": "https://github.com/AEcru/dsh-smart-dev-kit/issues"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "ticket",
+    "worktree",
+    "smart-dev"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./host.js",
+    "./router": "./router.js",
+    "./worker": "./worker.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "*.js",
+    "lib/*.mjs",
+    "cordis.patch.yml",
+    "LICENSE*",
+    "README.md"
+  ],
+  "engines": {
+    "dsh": ">=0.2.0-0"
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": [
+        "./cordis.patch.yml"
+      ]
+    }
+  }
+}

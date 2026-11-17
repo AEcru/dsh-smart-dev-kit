@@ -1,0 +1,5 @@
+# dsh-smart-dev-panel bundle patch: mounts the host half. The `dsh.client`
+# declaration in package.json loads ./client.js in the Web UI.
+- insert:
+    - id: dsh-smart-dev-panel
+      name: dsh-smart-dev-panel

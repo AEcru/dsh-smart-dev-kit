@@ -1,0 +1,35 @@
+{
+  "name": "dsh-preset-smart-dev",
+  "version": "1.0.0",
+  "description": "智能开发模式（smart-dev）：按 dsh-superagent 理念运行、并按 L1/L2/L3 任务复杂度自适应执行强度的 DeepSeek Harness agent 预设。",
+  "license": "MIT",
+  "author": "AEcru",
+  "homepage": "https://github.com/AEcru/dsh-smart-dev-kit#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AEcru/dsh-smart-dev-kit.git",
+    "directory": "packages/preset-smart-dev"
+  },
+  "bugs": {
+    "url": "https://github.com/AEcru/dsh-smart-dev-kit/issues"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "agent-preset",
+    "smart-dev"
+  ],
+  "files": [
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "engines": {
+    "dsh": ">=0.2.0-0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

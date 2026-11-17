@@ -1,0 +1,59 @@
+{
+  "name": "dsh-smart-dev-panel",
+  "version": "0.1.0",
+  "description": "智能开发模式伴侣面板：在右侧栏按任务维度显示工单待办、子代理调用、步骤统计与 token/上下文消耗，并在使用智能开发模式时自动打开。",
+  "license": "MIT",
+  "author": "AEcru",
+  "homepage": "https://github.com/AEcru/dsh-smart-dev-kit#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AEcru/dsh-smart-dev-kit.git",
+    "directory": "packages/smart-dev-panel"
+  },
+  "bugs": {
+    "url": "https://github.com/AEcru/dsh-smart-dev-kit/issues"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "sidebar",
+    "panel",
+    "smart-dev"
+  ],
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./superagent-router": "./superagent-router.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "superagent-router.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md"
+  ],
+  "engines": {
+    "dsh": ">=0.2.0-0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-sidebar-right",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  }
+}
