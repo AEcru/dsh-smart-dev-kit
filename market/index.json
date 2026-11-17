@@ -1,0 +1,175 @@
+{
+  "format": 1,
+  "title": {
+    "en": "Smart Dev Kit for DeepSeek Harness",
+    "zh": "DSH 智能开发模式"
+  },
+  "description": {
+    "en": "An agent preset that adapts to task size, with its sidebar panel and an optional ticket runtime.",
+    "zh": "按任务复杂度自适应的 agent 预设，配套侧边栏面板与可选工单运行时。"
+  },
+  "metadata": {
+    "categories": {
+      "preset": {
+        "title": {
+          "en": "Agent presets",
+          "zh": "Agent 预设"
+        }
+      },
+      "panel": {
+        "title": {
+          "en": "UI panels",
+          "zh": "界面面板"
+        }
+      },
+      "runtime": {
+        "title": {
+          "en": "Runtimes",
+          "zh": "运行时"
+        }
+      }
+    },
+    "labels": {},
+    "sortKeys": {}
+  },
+  "plugins": [
+    {
+      "name": "dsh-preset-smart-dev",
+      "title": {
+        "en": "Smart Dev preset",
+        "zh": "智能开发模式"
+      },
+      "description": {
+        "en": "An agent preset that scales its own intensity: direct for one-file fixes, ticket and verify for multi-file work, plan-first for cross-module changes.",
+        "zh": "按任务复杂度自适应的 agent 预设：单文件直做，多文件建单验证，跨模块先出方案。"
+      },
+      "author": "AEcru",
+      "homepage": "https://github.com/AEcru/dsh-smart-dev-kit#readme",
+      "repository": {
+        "url": "https://github.com/AEcru/dsh-smart-dev-kit",
+        "directory": "packages/preset-smart-dev"
+      },
+      "metadata": {
+        "category": "preset",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "agent-preset",
+          "smart-dev",
+          "workflow",
+          "ticket"
+        ],
+        "labels": [],
+        "sortKeys": {}
+      },
+      "versions": [
+        {
+          "version": "1.0.0",
+          "publishTimestamp": 1794910751,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/AEcru/dsh-smart-dev-kit",
+            "commit": "3256046c054e60b5558b15fb61bd1a055d5d7056",
+            "path": "packages/preset-smart-dev"
+          },
+          "engines": {
+            "dsh": ">=0.2.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-smart-dev-panel",
+      "title": {
+        "en": "Smart Dev sidebar panel",
+        "zh": "智能开发侧边栏面板"
+      },
+      "description": {
+        "en": "Right-sidebar panel for the smart-dev preset: tickets, subagents, tool calls, token and context usage, retries and workspace changes.",
+        "zh": "智能开发模式伴侣面板：工单、子代理、工具调用、token 与上下文消耗、失败重试、工作区变更。"
+      },
+      "author": "AEcru",
+      "homepage": "https://github.com/AEcru/dsh-smart-dev-kit#readme",
+      "repository": {
+        "url": "https://github.com/AEcru/dsh-smart-dev-kit",
+        "directory": "packages/smart-dev-panel"
+      },
+      "metadata": {
+        "category": "panel",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "sidebar",
+          "panel",
+          "smart-dev",
+          "observability"
+        ],
+        "labels": [],
+        "sortKeys": {}
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1794910751,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/AEcru/dsh-smart-dev-kit",
+            "commit": "3256046c054e60b5558b15fb61bd1a055d5d7056",
+            "path": "packages/smart-dev-panel"
+          },
+          "engines": {
+            "dsh": ">=0.2.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-preset-superagent-local",
+      "title": {
+        "en": "Superagent ticket runtime",
+        "zh": "工单运行时"
+      },
+      "description": {
+        "en": "Optional runtime behind the heavy-ticket channel: runs Git tasks in an isolated session and worktree, then hands the result back.",
+        "zh": "重型工单通道的可选运行时：在独立会话与 worktree 中执行 Git 任务，再把结果送回原会话。"
+      },
+      "author": "AEcru",
+      "homepage": "https://github.com/AEcru/dsh-smart-dev-kit#readme",
+      "repository": {
+        "url": "https://github.com/AEcru/dsh-smart-dev-kit",
+        "directory": "packages/preset-superagent-local"
+      },
+      "metadata": {
+        "category": "runtime",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "ticket",
+          "worktree",
+          "smart-dev",
+          "git"
+        ],
+        "labels": [],
+        "sortKeys": {}
+      },
+      "versions": [
+        {
+          "version": "1.1.0",
+          "publishTimestamp": 1794910751,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/AEcru/dsh-smart-dev-kit",
+            "commit": "3256046c054e60b5558b15fb61bd1a055d5d7056",
+            "path": "packages/preset-superagent-local"
+          },
+          "engines": {
+            "dsh": ">=0.2.0-0"
+          }
+        }
+      ]
+    }
+  ]
+}
